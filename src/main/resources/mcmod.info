@@ -1,0 +1,16 @@
+[
+{
+  "modid": "MCMBTools",
+  "name": "MCMBTools",
+  "description": "Useful tools for building with microblocks",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authors": ["Deoda"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
