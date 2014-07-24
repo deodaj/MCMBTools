@@ -11,11 +11,12 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class ItemMCMBT extends Item {
-	public ItemMCMBT() {
-		super(ID.itemMCMBT);
-		this.setMaxStackSize(1);
+	public ItemMCMBT(int id) {
+		super(id);
+		this.setMaxStackSize(1); 
 		this.setNoRepair();
 		this.setCreativeTab(creativeTabMCMBTools.MCMBT_TAB);
+		
 	}
 
 	@Override

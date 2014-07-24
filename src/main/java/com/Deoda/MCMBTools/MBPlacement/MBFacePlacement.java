@@ -1,22 +1,32 @@
 package com.Deoda.MCMBTools.MBPlacement;
 
+import java.util.Iterator;
+import java.util.LinkedList;
+
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import codechicken.microblock.FaceMicroClass;
 import codechicken.microblock.FacePlacement;
+import codechicken.microblock.ItemMicroPart;
+import codechicken.microblock.ItemSaw;
+import codechicken.microblock.MicroRecipe;
 import codechicken.microblock.MicroblockClass;
+import codechicken.microblock.MicroblockClassRegistry;
 import codechicken.microblock.MicroblockPlacement;
 import codechicken.microblock.PlacementGrid;
+import codechicken.microblock.Saw;
 
 public class MBFacePlacement extends MBCustomPlacement {
 	
-	public static boolean place(EntityPlayer player, World world, int x, int y, int z, int slot, int size, int material){
+	public static boolean place(EntityPlayer player, World world, int x, int y, int z, int slot, int size, int material,boolean auto){
 		ItemStack stack=null;
 		if(!player.capabilities.isCreativeMode){
-			stack=inPlayerInventory(player, FacePlacement.microClass(), size, material);
+			stack=inPlayerInventory(player, FacePlacement.microClass(), size, material,auto);
 			if (stack==null || stack.stackSize<1){
 				return false;
 			}
@@ -29,7 +39,7 @@ public class MBFacePlacement extends MBCustomPlacement {
 		}
 		if(placement.apply()!=null){
 			if(!player.capabilities.isCreativeMode){
-				decreaseStack(player, stack);
+				MBFacePlacement.decreaseStack(player, stack);
 			}
 			if (!world.isRemote){
 				placement.apply().place(world, player, null);
@@ -70,4 +80,5 @@ public class MBFacePlacement extends MBCustomPlacement {
 	public boolean sneakOpposite(int slot, int side) {
 		return FacePlacement.sneakOpposite(slot, side);
 	}
+	
 }

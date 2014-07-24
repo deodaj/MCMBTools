@@ -1,5 +1,8 @@
 package com.Deoda.MCMBTools.MBPlacement;
 
+import com.Deoda.MCMBTools.items.ItemMCMBBuildingWand;
+import com.Deoda.MCMBTools.utility.AutoCraft;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import codechicken.microblock.ItemMicroPart;
@@ -10,27 +13,20 @@ import codechicken.microblock.PlacementProperties;
 
 public abstract class MBCustomPlacement extends PlacementProperties {
 
-	public static ItemStack inPlayerInventory(EntityPlayer player, MicroblockClass mcrClass, int size, int material){
-		ItemStack[] inv = player.inventory.mainInventory;
-		for (int i = 0; i < inv.length; i++) {
-			if (inv[i]!=null && inv[i].getItem() instanceof ItemMicroPart){
-				ItemMicroPart item= (ItemMicroPart)inv[i].getItem();
-				if (ItemMicroPart.getMaterialID(inv[i])==material &&
-						MicroblockClassRegistry.getMicroClass(inv[i].getItemDamage())==mcrClass &&
-						size==(inv[i].getItemDamage()&0xFF)){
-					return inv[i];
-				}
-			}
+	public static ItemStack inPlayerInventory(EntityPlayer player, MicroblockClass mcrClass, int size, int material,boolean auto){
+		ItemStack ret = AutoCraft.isAlreadyThere(player, mcrClass.classID(), size, material);
+		if (auto && ret==null && AutoCraft.isAutocrafting && AutoCraft.autoCraft(player, mcrClass.classID(), size, material) ){
+			ret = AutoCraft.isAlreadyThere(player, mcrClass.classID(), size, material);
 		}
-		
-		return null;
+		return ret;
 	}
 	
 	public static void decreaseStack(EntityPlayer player, ItemStack stack){
 		stack.stackSize--;
 		if (stack.stackSize==0){
 			ItemStack[] inv = player.inventory.mainInventory;
-			for (int i = 0; i < inv.length; i++) {
+			int i=0;
+			for (i = 0; i < inv.length; i++) {
 				if (inv[i]==stack){
 					inv[i]=null;
 				}

@@ -5,6 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import codechicken.microblock.CornerPlacement;
 import codechicken.microblock.EdgePlacement;
 import codechicken.microblock.ExecutablePlacement;
 import codechicken.microblock.FacePlacement;
@@ -12,14 +13,15 @@ import codechicken.microblock.MicroblockClass;
 import codechicken.microblock.MicroblockPlacement;
 import codechicken.microblock.PlacementGrid;
 
-public class MBEdgePlacement extends MBCustomPlacement {
+public class MBCornerPlacement extends MBCustomPlacement {
+
 
 	public int slot;
 	
 	public static boolean place(EntityPlayer player, World world, int x, int y, int z, int side, int slot, int size, int material,boolean auto){
 		ItemStack stack=null;
 		if(!player.capabilities.isCreativeMode){
-			stack=inPlayerInventory(player, EdgePlacement.microClass(), size, material,auto);
+			stack=inPlayerInventory(player, CornerPlacement.microClass(), size, material,auto);
 			if (stack==null || stack.stackSize<1){
 				return false;
 			}
@@ -29,7 +31,7 @@ public class MBEdgePlacement extends MBCustomPlacement {
 		int py=(side==0)?1:0;
 		int pz=(side==2)?1:0;
 		MovingObjectPosition hit = new MovingObjectPosition(x+px, y+py, z+pz, side,Vec3.createVectorHelper(-0.5+x+px,-0.5+y+py,-0.5+z+pz) );
-		MicroblockPlacement placement= new MicroblockPlacement(world, player, hit, size, material, false, new MBEdgePlacement(slot));
+		MicroblockPlacement placement= new MicroblockPlacement(world, player, hit, size, material, false, new MBCornerPlacement(slot));
 		if( placement.oppMod()){
 			return false;
 		}
@@ -47,29 +49,27 @@ public class MBEdgePlacement extends MBCustomPlacement {
 		}
 		return false;
 	}
-	
-	
-	
-	public MBEdgePlacement(int slot) {
+
+	public MBCornerPlacement(int slot) {
 		super();
 		this.slot = slot;
 	}
 
 	@Override
 	public ExecutablePlacement customPlacement(MicroblockPlacement pmt) {
-		return EdgePlacement.customPlacement(pmt);
+		return CornerPlacement.customPlacement(pmt);
 	}
 
 
 
 	@Override
 	public MicroblockClass microClass() {
-		return EdgePlacement.microClass();
+		return CornerPlacement.microClass();
 	}
 
 	@Override
 	public int opposite(int arg0, int arg1) {
-		return EdgePlacement.opposite(arg0, arg1);
+		return CornerPlacement.opposite(arg0, arg1);
 	}
 
 	@Override
@@ -79,12 +79,11 @@ public class MBEdgePlacement extends MBCustomPlacement {
 
 	@Override
 	public boolean expand(int slot, int side) {
-		return EdgePlacement.expand(slot, side);
+		return CornerPlacement.expand(slot, side);
 	}
 
 	@Override
 	public boolean sneakOpposite(int slot, int side) {
-		return FacePlacement.sneakOpposite(slot, side);
+		return CornerPlacement.sneakOpposite(slot, side);
 	}
-
 }

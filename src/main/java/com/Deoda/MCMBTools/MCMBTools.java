@@ -1,6 +1,10 @@
 package com.Deoda.MCMBTools;
 
+import net.minecraftforge.common.MinecraftForge;
+import codechicken.microblock.MicroMaterialRegistry;
+
 import com.Deoda.MCMBTools.config.ConfigurationHandler;
+import com.Deoda.MCMBTools.handler.EventHandler;
 import com.Deoda.MCMBTools.init.ModItems;
 import com.Deoda.MCMBTools.proxy.IProxy;
 import com.Deoda.MCMBTools.reference.Reference;
@@ -10,6 +14,7 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.network.NetworkMod;
 
 @Mod(modid = Reference.MOD_ID ,name = Reference.MOD_NAME, version = Reference.VERSION, dependencies ="required-before:ForgeMicroblock", acceptedMinecraftVersions = "[1.6.4]")
 public class MCMBTools {
@@ -29,11 +34,13 @@ public class MCMBTools {
 	
 	@Mod.EventHandler
 	public void init(FMLInitializationEvent event){
+		MinecraftForge.EVENT_BUS.register(new EventHandler());
 		ModItems.Init();
 	}
 	
 	@Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent event){
-		
 	}
+	
+	
 }
